@@ -1,13 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import Contact from "../Contact/Contact";
 import s from "./ContactList.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { deleteContact, fetchContacts } from "../../redux/contactsOps";
 import {
   selectFilteredContacts,
   selectError,
   selectLoading,
 } from "../../redux/contactsSlice";
-import { useEffect } from "react";
 
 export default function ContactList() {
   const dispatch = useDispatch();
@@ -24,10 +24,14 @@ export default function ContactList() {
   };
 
   return (
-    <ul className={s.list}>
-      {filteredContacts.map((item) => (
-        <Contact key={item.id} item={item} onDelete={handleDelete} />
-      ))}
-    </ul>
+    <>
+      {isLoading && <h2>Loading...</h2>}
+      {isError && <h2>Error: {isError}</h2>}
+      <ul className={s.list}>
+        {filteredContacts.map((item) => (
+          <Contact key={item.id} item={item} onDelete={handleDelete} />
+        ))}
+      </ul>
+    </>
   );
 }
